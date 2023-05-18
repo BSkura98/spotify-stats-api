@@ -1,0 +1,35 @@
+{
+  "name": "spotify-stats-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "rimraf dist && npx tsc",
+    "prestart": "npm run build",
+    "start": "node dist/app.js",
+    "preserve": "npm run build",
+    "serve": "concurrently \"npx tsc -w\"  \"nodemon dist/app.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BSkura98/spotify-stats-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BSkura98/spotify-stats-api/issues"
+  },
+  "homepage": "https://github.com/BSkura98/spotify-stats-api#readme",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.2.0",
+    "concurrently": "^8.0.1",
+    "express": "^4.18.2",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
