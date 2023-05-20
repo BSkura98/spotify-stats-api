@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import { connect } from "mongoose";
 import { config } from "dotenv";
 
-import plays from "./routes/plays";
+import trackPlays from "./routes/trackPlays";
 
 config();
 
@@ -12,7 +12,7 @@ const app: Express = express();
 
 app.use(express.json());
 
-app.use("/plays", plays);
+app.use("/trackPlays", trackPlays);
 
 const start = async () => {
   try {

@@ -1,19 +1,19 @@
 import { Schema, model } from "mongoose";
 
-interface IPlay {
+interface ITrackPlay {
   endTime: string;
   artistName: string;
   trackName: string;
   msPlayed: number;
 }
 
-const playSchema = new Schema<IPlay>({
+const trackPlaySchema = new Schema<ITrackPlay>({
   endTime: { type: String, required: true },
   artistName: { type: String, required: true },
   trackName: { type: String, required: true },
   msPlayed: { type: Number, required: true },
 });
 
-const Play = model<IPlay>("Play", playSchema);
+const TrackPlay = model<ITrackPlay>("TrackPlay", trackPlaySchema);
 
-export { Play, IPlay };
+export { TrackPlay, ITrackPlay };
