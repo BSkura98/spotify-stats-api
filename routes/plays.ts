@@ -1,9 +1,9 @@
 import express from "express";
 
-import { getPlays, createPlay } from "../controllers/plays";
+import { getPlays, addPlays } from "../controllers/plays";
 
 const router = express.Router();
 
-router.route("/").get(getPlays).post(createPlay);
+router.route("/").get(getPlays).post(addPlays);
 
 export default router;

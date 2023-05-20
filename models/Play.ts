@@ -16,4 +16,4 @@ const playSchema = new Schema<IPlay>({
 
 const Play = model<IPlay>("Play", playSchema);
 
-export { Play };
+export { Play, IPlay };
