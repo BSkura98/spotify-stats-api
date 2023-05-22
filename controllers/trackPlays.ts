@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import asyncWrapper from "../middleware/async";
 import { ITrackPlay, TrackPlay } from "../models/TrackPlay";
+import { AddTrackPlaysBodyElement } from "./requestBodies/AddTrackPlaysBodyElement";
+import { getTrackPlayBasedOnFormat } from "../helpers/getTrackPlayBasedOnFormat";
 
 const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
   const plays = await TrackPlay.find({});
@@ -9,21 +11,29 @@ const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 const addTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
-  const trackPlays = await TrackPlay.find({});
-  const trackPlaysFromBody = req.body;
+  const trackPlaysFromDb = await TrackPlay.find({});
+  const trackPlaysFromBody: AddTrackPlaysBodyElement[] = req.body;
 
   const newTrackPlays = trackPlaysFromBody.reduce(
-    (trackPlaysToAdd: ITrackPlay[], playFromBody: ITrackPlay) => {
-      const playExistsInDatabase = trackPlays.some(
-        (playFromDb: ITrackPlay) =>
-          playFromBody.endTime === playFromDb.endTime &&
-          playFromBody.artistName === playFromDb.artistName &&
-          playFromBody.trackName === playFromDb.trackName &&
-          playFromBody.msPlayed === playFromDb.msPlayed
-      );
+    (
+      trackPlaysToAdd: ITrackPlay[],
+      trackPlayFromBody: AddTrackPlaysBodyElement
+    ) => {
+      const trackPlay = getTrackPlayBasedOnFormat(trackPlayFromBody);
 
-      if (!playExistsInDatabase) {
-        trackPlaysToAdd.push(playFromBody);
+      if (trackPlay) {
+        const itemExistsInDatabase = trackPlaysFromDb.some(
+          (playFromDb: ITrackPlay) =>
+            trackPlay.endTime === playFromDb.endTime &&
+            trackPlay.artistName === playFromDb.artistName &&
+            trackPlay.trackName === playFromDb.trackName &&
+            trackPlay.msPlayed === playFromDb.msPlayed
+        );
+
+        if (!itemExistsInDatabase) {
+          const { endTime, artistName, trackName, msPlayed } = trackPlay;
+          trackPlaysToAdd.push({ endTime, artistName, trackName, msPlayed });
+        }
       }
 
       return trackPlaysToAdd;
