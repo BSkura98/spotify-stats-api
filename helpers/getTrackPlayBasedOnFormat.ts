@@ -1,3 +1,5 @@
+import { setSeconds } from "date-fns";
+
 import { AddTrackPlaysBodyElement } from "../controllers/requestBodies/AddTrackPlaysBodyElement";
 
 interface TrackPlay {
@@ -10,8 +12,17 @@ interface TrackPlay {
 export const getTrackPlayBasedOnFormat = (
   playFromBody: AddTrackPlaysBodyElement
 ): TrackPlay | null => {
+  let endTime;
+  if (playFromBody.ts) {
+    endTime = setSeconds(new Date(playFromBody.ts), 0).toISOString();
+  } else {
+    endTime = playFromBody.endTime
+      ? new Date(`${playFromBody.endTime}:00Z`.replace(" ", "T")).toISOString()
+      : undefined;
+  }
+
   const trackPlay = {
-    endTime: playFromBody.ts || playFromBody.endTime,
+    endTime,
     artistName:
       playFromBody.master_metadata_album_artist_name || playFromBody.artistName,
     trackName:
