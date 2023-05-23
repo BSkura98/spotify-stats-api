@@ -3,6 +3,7 @@ import { connect } from "mongoose";
 import { config } from "dotenv";
 
 import trackPlays from "./routes/trackPlays";
+import songsStats from "./routes/songsStats";
 
 config();
 
@@ -10,9 +11,10 @@ const port = 8000;
 
 const app: Express = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.use("/trackPlays", trackPlays);
+app.use("/stats/songs", songsStats);
 
 const start = async () => {
   try {
