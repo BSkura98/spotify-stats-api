@@ -4,6 +4,7 @@ import { config } from "dotenv";
 
 import trackPlays from "./routes/trackPlays";
 import songsStats from "./routes/songsStats";
+import artistsStats from "./routes/artistsStats";
 
 config();
 
@@ -15,6 +16,7 @@ app.use(express.json({ limit: "1mb" }));
 
 app.use("/trackPlays", trackPlays);
 app.use("/stats/songs", songsStats);
+app.use("/stats/artists", artistsStats);
 
 const start = async () => {
   try {

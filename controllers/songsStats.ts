@@ -11,9 +11,9 @@ interface RankedSong {
 }
 
 const getTopSongs = asyncWrapper(async (req: Request, res: Response) => {
-  const plays = await TrackPlay.find({});
+  const trackPlays = await TrackPlay.find({});
 
-  const rankedSongs = plays.reduce(
+  const rankedSongs = trackPlays.reduce(
     (songs: RankedSong[], trackPlay: ITrackPlay) => {
       let isSongInArray = false;
       for (let i = 0; i < songs.length; i++) {
