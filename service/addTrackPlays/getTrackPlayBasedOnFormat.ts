@@ -1,6 +1,6 @@
 import { setSeconds } from "date-fns";
 
-import { AddTrackPlaysBodyElement } from "../controllers/requestBodies/AddTrackPlaysBodyElement";
+import { AddTrackPlaysBodyElement } from "./request";
 
 interface TrackPlay {
   endTime: string;
