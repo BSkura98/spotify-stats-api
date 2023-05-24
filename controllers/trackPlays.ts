@@ -1,47 +1,19 @@
 import { Request, Response } from "express";
 
 import asyncWrapper from "../middleware/async";
-import { ITrackPlay, TrackPlay } from "../models/TrackPlay";
-import { AddTrackPlaysBodyElement } from "./requestBodies/AddTrackPlaysBodyElement";
-import { getTrackPlayBasedOnFormat } from "../helpers/getTrackPlayBasedOnFormat";
+import { AddTrackPlaysBodyElement } from "../service/addTrackPlays/request";
+import { addTrackPlaysService } from "../service/addTrackPlays/service";
+import { getTrackPlaysService } from "../service/getTrackPlays/service";
 
 const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
-  const plays = await TrackPlay.find({});
-  res.status(200).json({ items: plays });
+  const plays = await getTrackPlaysService();
+  res.status(200).json(plays);
 });
 
 const addTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
-  const trackPlaysFromDb = await TrackPlay.find({});
   const trackPlaysFromBody: AddTrackPlaysBodyElement[] = req.body;
 
-  const newTrackPlays = trackPlaysFromBody.reduce(
-    (
-      trackPlaysToAdd: ITrackPlay[],
-      trackPlayFromBody: AddTrackPlaysBodyElement
-    ) => {
-      const trackPlay = getTrackPlayBasedOnFormat(trackPlayFromBody);
-
-      if (trackPlay) {
-        const itemExistsInDatabase = trackPlaysFromDb.some(
-          (playFromDb: ITrackPlay) =>
-            trackPlay.endTime === playFromDb.endTime &&
-            trackPlay.artistName === playFromDb.artistName &&
-            trackPlay.trackName === playFromDb.trackName &&
-            trackPlay.msPlayed === playFromDb.msPlayed
-        );
-
-        if (!itemExistsInDatabase) {
-          const { endTime, artistName, trackName, msPlayed } = trackPlay;
-          trackPlaysToAdd.push({ endTime, artistName, trackName, msPlayed });
-        }
-      }
-
-      return trackPlaysToAdd;
-    },
-    []
-  );
-
-  await TrackPlay.create(newTrackPlays);
+  await addTrackPlaysService(trackPlaysFromBody);
 
   res.status(201).json({ message: "Track plays successfully added" });
 });
