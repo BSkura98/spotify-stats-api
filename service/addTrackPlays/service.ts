@@ -1,4 +1,4 @@
-import { getTrackPlayBasedOnFormat } from "../../helpers/getTrackPlayBasedOnFormat";
+import { getTrackPlayBasedOnFormat } from "./getTrackPlayBasedOnFormat";
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 
