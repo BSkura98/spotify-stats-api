@@ -1,4 +1,4 @@
-export interface GetTopSongsParameters {
+export interface GetTopArtistsParameters {
   startDate?: string;
   endDate?: string;
 }
