@@ -1,4 +1,8 @@
+import { endOfDay, startOfDay } from "date-fns";
+import { FilterQuery } from "mongoose";
+
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
+import { GetTopSongsParameters } from "./requestParameters";
 
 interface RankedSong {
   position?: number;
@@ -7,8 +11,26 @@ interface RankedSong {
   totalMsPlayed: number;
 }
 
-export const getTopSongsService = async () => {
-  const trackPlays = await TrackPlay.find({});
+const getFilterQuery = (requestParameters: GetTopSongsParameters) => {
+  let filter: FilterQuery<ITrackPlay> = {};
+
+  if (requestParameters.startDate || requestParameters.endDate) {
+    filter = { endTime: {} };
+    if (requestParameters.startDate) {
+      filter.endTime.$gte = startOfDay(new Date(requestParameters.startDate));
+    }
+    if (requestParameters.endDate) {
+      filter.endTime.$lte = endOfDay(new Date(requestParameters.endDate));
+    }
+  }
+
+  return filter;
+};
+
+export const getTopSongsService = async (
+  requestParameters: GetTopSongsParameters
+) => {
+  const trackPlays = await TrackPlay.find(getFilterQuery(requestParameters));
 
   const rankedSongs = trackPlays.reduce(
     (songs: RankedSong[], trackPlay: ITrackPlay) => {

@@ -1,8 +1,12 @@
+import { isEqual } from "date-fns";
+
 import { getTrackPlayBasedOnFormat } from "./getTrackPlayBasedOnFormat";
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 
-export const addTrackPlaysService = async (trackPlays: AddTrackPlaysBodyElement[]) => {
+export const addTrackPlaysService = async (
+  trackPlays: AddTrackPlaysBodyElement[]
+) => {
   const trackPlaysFromDb = await TrackPlay.find({});
 
   const newTrackPlays = trackPlays.reduce(
@@ -15,7 +19,7 @@ export const addTrackPlaysService = async (trackPlays: AddTrackPlaysBodyElement[
       if (trackPlay) {
         const itemExistsInDatabase = trackPlaysFromDb.some(
           (playFromDb: ITrackPlay) =>
-            trackPlay.endTime === playFromDb.endTime &&
+            isEqual(trackPlay.endTime, playFromDb.endTime) &&
             trackPlay.artistName === playFromDb.artistName &&
             trackPlay.trackName === playFromDb.trackName &&
             trackPlay.msPlayed === playFromDb.msPlayed

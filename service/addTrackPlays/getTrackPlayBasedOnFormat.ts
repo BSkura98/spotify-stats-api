@@ -3,7 +3,7 @@ import { setSeconds } from "date-fns";
 import { AddTrackPlaysBodyElement } from "./request";
 
 interface TrackPlay {
-  endTime: string;
+  endTime: Date;
   artistName: string;
   trackName: string;
   msPlayed: number;
@@ -14,10 +14,10 @@ export const getTrackPlayBasedOnFormat = (
 ): TrackPlay | null => {
   let endTime;
   if (playFromBody.ts) {
-    endTime = setSeconds(new Date(playFromBody.ts), 0).toISOString();
+    endTime = setSeconds(new Date(playFromBody.ts), 0);
   } else {
     endTime = playFromBody.endTime
-      ? new Date(`${playFromBody.endTime}:00Z`.replace(" ", "T")).toISOString()
+      ? new Date(`${playFromBody.endTime}:00Z`.replace(" ", "T"))
       : undefined;
   }
 
