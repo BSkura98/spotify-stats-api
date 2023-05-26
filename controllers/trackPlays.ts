@@ -4,6 +4,9 @@ import asyncWrapper from "../middleware/async";
 import { AddTrackPlaysBodyElement } from "../service/addTrackPlays/request";
 import { addTrackPlaysService } from "../service/addTrackPlays/service";
 import { getTrackPlaysService } from "../service/getTrackPlays/service";
+import { deleteTrackPlayService } from "../service/deleteTrackPlay/service";
+import { RequestError } from "../errors/RequestError";
+import { errorResponse } from "../utils/errorResponse";
 
 const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
   const plays = await getTrackPlaysService();
@@ -18,4 +21,16 @@ const addTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
   res.status(201).json({ message: "Track plays successfully added" });
 });
 
-export { getTrackPlays, addTrackPlays };
+const deleteTrackPlay = asyncWrapper(async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    await deleteTrackPlayService(id);
+
+    res.status(200).json({ message: "Track play successfully deleted" });
+  } catch (error) {
+    errorResponse(res, error as RequestError);
+  }
+});
+
+export { getTrackPlays, addTrackPlays, deleteTrackPlay };
