@@ -7,6 +7,7 @@ import songsStats from "./routes/songsStats";
 import artistsStats from "./routes/artistsStats";
 import { authenticateAndRefreshToken } from "./middleware/refreshAccessToken";
 import { authorized, callback, login } from "./controllers/authorization";
+import songStats from "./routes/songStats";
 
 config();
 
@@ -23,6 +24,7 @@ app.get("/authorized", authorized);
 app.use("/trackPlays", authenticateAndRefreshToken, trackPlays);
 app.use("/stats/songs", authenticateAndRefreshToken, songsStats);
 app.use("/stats/artists", authenticateAndRefreshToken, artistsStats);
+app.use("/stats/song", authenticateAndRefreshToken, songStats);
 
 const start = async () => {
   try {

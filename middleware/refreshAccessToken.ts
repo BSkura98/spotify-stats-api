@@ -30,8 +30,8 @@ export const authenticateAndRefreshToken = (
   request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       const access_token = body.access_token;
-      // @ts-ignore
-      req.accessToken = access_token;
+      // TODO access token shouldn't be treated as body parameter
+      req.body.accessToken = access_token;
       next();
     } else {
       res.status(401).json({ message: "Invalid token" });
