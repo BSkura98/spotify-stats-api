@@ -1,5 +1,9 @@
+interface Artist {
+  name: string;
+}
+
 export interface SearchForSongResponseElement {
   name: string;
-  artists: { name: string }[];
+  artists: Artist[];
   duration_ms: number;
 }
