@@ -22,7 +22,7 @@ whereas for the extended listening history single item of data is saved in this 
     ...
   }
 ```
-Endpoint `POST /trackPlays` which allows you to save track plays in database supports both formats. You can just grab the content of the file with the listening history and put it in request body.
+Endpoint `POST /trackPlays` which allows you to save track plays in database supports both formats. You can just grab the content of the file with the listening history and put it in request body. Remember to not modify the content of the grabbed data by yourself. You shouldn't even change the order of the data, because API expects sorted data and changing order may cause omitting some items while adding them to database.
 
 ## How to use this API
 To run this API you should first create a MongoDB database instance. Also you should create app in spotify for developers page (https://developer.spotify.com/).
