@@ -1,21 +1,38 @@
-import { isEqual } from "date-fns";
+import {
+  differenceInMilliseconds,
+  endOfDay,
+  isEqual,
+  startOfDay,
+} from "date-fns";
 
 import { getTrackPlayBasedOnFormat } from "./getTrackPlayBasedOnFormat";
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
+import { TrackPlay as TrackPlayFormatted } from "./getTrackPlayBasedOnFormat";
 
 export const addTrackPlaysService = async (
   trackPlays: AddTrackPlaysBodyElement[]
 ) => {
-  const trackPlaysFromDb = await TrackPlay.find({});
+  const trackPlaysFormatted = trackPlays.map((trackPlay) =>
+    getTrackPlayBasedOnFormat(trackPlay)
+  );
 
-  const newTrackPlays = trackPlays.reduce(
-    (
-      trackPlaysToAdd: ITrackPlay[],
-      trackPlayFromBody: AddTrackPlaysBodyElement
-    ) => {
-      const trackPlay = getTrackPlayBasedOnFormat(trackPlayFromBody);
+  const firstTrackPlayDate = startOfDay(
+    new Date(trackPlaysFormatted[0]?.endTime || "")
+  );
+  const lastTrackPlayDate = endOfDay(
+    new Date(trackPlaysFormatted[trackPlaysFormatted.length - 1]?.endTime || "")
+  );
+  const trackPlaysFromDb = (
+    await TrackPlay.find({
+      endTime: { $gte: firstTrackPlayDate, $lte: lastTrackPlayDate },
+    })
+  ).sort((trackPlay1, trackPlay2) =>
+    differenceInMilliseconds(trackPlay1.endTime, trackPlay2.endTime)
+  );
 
+  const newTrackPlays = trackPlaysFormatted.reduce(
+    (trackPlaysToAdd: ITrackPlay[], trackPlay: TrackPlayFormatted | null) => {
       if (trackPlay) {
         const itemExistsInDatabase = trackPlaysFromDb.some(
           (playFromDb: ITrackPlay) =>

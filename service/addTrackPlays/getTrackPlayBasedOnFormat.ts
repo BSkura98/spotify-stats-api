@@ -2,7 +2,7 @@ import { setSeconds } from "date-fns";
 
 import { AddTrackPlaysBodyElement } from "./request";
 
-interface TrackPlay {
+export interface TrackPlay {
   endTime: Date;
   artistName: string;
   trackName: string;
