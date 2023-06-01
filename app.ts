@@ -1,6 +1,4 @@
-import express, { Express, Request, Response } from "express";
-import { connect } from "mongoose";
-import { config } from "dotenv";
+import express, { Express } from "express";
 
 import trackPlays from "./routes/trackPlays";
 import songsStats from "./routes/songsStats";
@@ -9,35 +7,19 @@ import { authenticateAndRefreshToken } from "./middleware/refreshAccessToken";
 import { authorized, callback, login } from "./controllers/authorization";
 import songStats from "./routes/songStats";
 
-config();
+export const createApp = () => {
+  const app: Express = express();
 
-const port = 8000;
+  app.use(express.json({ limit: "50mb" }));
 
-const app: Express = express();
+  app.get("/login", login);
+  app.get("/callback", callback);
+  app.get("/authorized", authorized);
 
-app.use(express.json({ limit: "50mb" }));
+  app.use("/trackPlays", authenticateAndRefreshToken, trackPlays);
+  app.use("/stats/songs", authenticateAndRefreshToken, songsStats);
+  app.use("/stats/artists", authenticateAndRefreshToken, artistsStats);
+  app.use("/stats/song", authenticateAndRefreshToken, songStats);
 
-app.get("/login", login);
-app.get("/callback", callback);
-app.get("/authorized", authorized);
-
-app.use("/trackPlays", authenticateAndRefreshToken, trackPlays);
-app.use("/stats/songs", authenticateAndRefreshToken, songsStats);
-app.use("/stats/artists", authenticateAndRefreshToken, artistsStats);
-app.use("/stats/song", authenticateAndRefreshToken, songStats);
-
-const start = async () => {
-  try {
-    if (process.env.MONGO_URI === undefined) {
-      throw new Error("Mongo URI is undefined");
-    }
-    await connect(process.env.MONGO_URI);
-    app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
-    );
-  } catch (error) {
-    console.log(error);
-  }
+  return app;
 };
-
-start();
