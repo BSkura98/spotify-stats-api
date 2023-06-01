@@ -1,5 +1,5 @@
-import { TrackPlay } from "../../models/TrackPlay";
+import database from "../../database/trackPlays";
 
 export const getTrackPlaysService = async () => {
-  return await TrackPlay.find({});
+  return await database.getTrackPlays();
 };
