@@ -9,7 +9,7 @@ import { getTrackPlayBasedOnFormat } from "./getTrackPlayBasedOnFormat";
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 import { TrackPlay as TrackPlayFormatted } from "./getTrackPlayBasedOnFormat";
-import database from "../../database/trackPlays";
+import database from "../../database/database";
 
 export const addTrackPlaysService = async (
   trackPlays: AddTrackPlaysBodyElement[]
