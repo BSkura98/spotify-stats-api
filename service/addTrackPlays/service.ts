@@ -9,6 +9,7 @@ import { getTrackPlayBasedOnFormat } from "./getTrackPlayBasedOnFormat";
 import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 import { TrackPlay as TrackPlayFormatted } from "./getTrackPlayBasedOnFormat";
+import database from "../../database/database";
 
 export const addTrackPlaysService = async (
   trackPlays: AddTrackPlaysBodyElement[]
@@ -24,8 +25,9 @@ export const addTrackPlaysService = async (
     new Date(trackPlaysFormatted[trackPlaysFormatted.length - 1]?.endTime || "")
   );
   const trackPlaysFromDb = (
-    await TrackPlay.find({
-      endTime: { $gte: firstTrackPlayDate, $lte: lastTrackPlayDate },
+    await database.getTrackPlays({
+      startDate: firstTrackPlayDate,
+      endDate: lastTrackPlayDate,
     })
   ).sort((trackPlay1, trackPlay2) =>
     differenceInMilliseconds(trackPlay1.endTime, trackPlay2.endTime)
