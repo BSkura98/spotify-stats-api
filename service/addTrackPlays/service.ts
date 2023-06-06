@@ -55,5 +55,7 @@ export const addTrackPlaysService = async (
     []
   );
 
-  return await TrackPlay.create(newTrackPlays);
+  const createdTrackPlays = await TrackPlay.create(newTrackPlays);
+
+  return createdTrackPlays.map((trackPlays) => trackPlays._id);
 };

@@ -16,9 +16,9 @@ const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
 const addTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
   const trackPlaysFromBody: AddTrackPlaysBodyElement[] = req.body;
 
-  await addTrackPlaysService(trackPlaysFromBody);
+  const ids = await addTrackPlaysService(trackPlaysFromBody);
 
-  res.status(201).json({ message: "Track plays successfully added" });
+  res.status(201).json({ message: "Track plays successfully added", ids });
 });
 
 const deleteTrackPlay = asyncWrapper(async (req: Request, res: Response) => {
