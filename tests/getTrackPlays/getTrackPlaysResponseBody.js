@@ -40,6 +40,38 @@ const getTrackPlaysResponseBody = [
     msPlayed: 236200,
     __v: 0,
   },
+  {
+    _id: "6475cecf61025ee3b39d7d0d",
+    endTime: "2023-02-26T16:03:00.000Z",
+    artistName: "No Doubt",
+    trackName: "Don't Speak",
+    msPlayed: 163560,
+    __v: 0,
+  },
+  {
+    _id: "6475cecf61025ee3b39d7d11",
+    endTime: "2023-02-28T13:15:00.000Z",
+    artistName: "Billy Joel",
+    trackName: "Vienna",
+    msPlayed: 170345,
+    __v: 0,
+  },
+  {
+    _id: "6475cecf61025ee3b39d7d11",
+    endTime: "2023-03-01T13:15:00.000Z",
+    artistName: "Billy Joel",
+    trackName: "Pressure",
+    msPlayed: 280333,
+    __v: 0,
+  },
+  {
+    _id: "6475cecf61025ee3b39d7d0d",
+    endTime: "2023-03-03T16:03:00.000Z",
+    artistName: "No Doubt",
+    trackName: "Don't Speak",
+    msPlayed: 203560,
+    __v: 0,
+  },
 ];
 
 module.exports = { getTrackPlaysResponseBody };

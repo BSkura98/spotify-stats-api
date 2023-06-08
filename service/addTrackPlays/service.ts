@@ -6,7 +6,7 @@ import {
 } from "date-fns";
 
 import { getTrackPlaysBasedOnBodyFormat } from "./getTrackPlaysBasedOnBodyFormat";
-import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
+import { ITrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 import { TrackPlay as TrackPlayFormatted } from "./getTrackPlaysBasedOnBodyFormat";
 import database from "../../database/database";
@@ -64,7 +64,7 @@ export const addTrackPlaysService = async (
 
   const newTrackPlays = getNewTrackPlays(trackPlaysFormatted, trackPlaysFromDb);
 
-  const createdTrackPlays = await TrackPlay.create(newTrackPlays);
+  const createdTrackPlays = await database.addTrackPlays(newTrackPlays);
 
   return createdTrackPlays.map((trackPlays) => trackPlays._id);
 };
