@@ -1,9 +1,9 @@
 const request = require("supertest");
 
-const { createApp } = require("../dist/app");
+const { createApp } = require("../../dist/app");
 const {
   getTrackPlaysResponseBody,
-} = require("./mockedResponse/getTrackPlaysResponseBody");
+} = require("./getTrackPlaysResponseBody");
 
 const app = createApp();
 
