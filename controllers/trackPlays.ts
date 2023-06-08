@@ -14,11 +14,18 @@ const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 const addTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
-  const trackPlaysFromBody: AddTrackPlaysBodyElement[] = req.body;
+  try {
+    const trackPlaysFromBody: AddTrackPlaysBodyElement[] = req.body;
 
-  await addTrackPlaysService(trackPlaysFromBody);
+    const ids = await addTrackPlaysService(trackPlaysFromBody);
 
-  res.status(201).json({ message: "Track plays successfully added" });
+    if (ids.length === 0) {
+      return res.status(200).json({ message: "All track plays already exist" });
+    }
+    res.status(201).json({ message: "Track plays successfully added", ids });
+  } catch (error) {
+    errorResponse(res, error as RequestError);
+  }
 });
 
 const deleteTrackPlay = asyncWrapper(async (req: Request, res: Response) => {
