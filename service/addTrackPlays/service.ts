@@ -6,12 +6,11 @@ import {
 } from "date-fns";
 
 import { getTrackPlaysBasedOnBodyFormat } from "./getTrackPlaysBasedOnBodyFormat";
-import { ITrackPlay, TrackPlay } from "../../models/TrackPlay";
+import { ITrackPlay } from "../../models/TrackPlay";
 import { AddTrackPlaysBodyElement } from "./request";
 import { TrackPlay as TrackPlayFormatted } from "./getTrackPlaysBasedOnBodyFormat";
 import database from "../../database/database";
 import { BadRequestError } from "../../errors/BadRequestError";
-import { ObjectId } from "mongoose";
 
 const getNewTrackPlays = (
   trackPlaysFormatted: TrackPlayFormatted[],
@@ -39,11 +38,6 @@ const getNewTrackPlays = (
     []
   );
 
-interface TrackPlayFromDb extends ITrackPlay {
-  _id: ObjectId;
-  __v: number;
-}
-
 export const addTrackPlaysService = async (
   trackPlays: AddTrackPlaysBodyElement[]
 ) => {
@@ -70,10 +64,7 @@ export const addTrackPlaysService = async (
 
   const newTrackPlays = getNewTrackPlays(trackPlaysFormatted, trackPlaysFromDb);
 
-  const createdTrackPlays: TrackPlayFromDb[] = await database.addTrackPlays(
-    newTrackPlays
-  );
-  // const createdTrackPlays = await TrackPlay.create(newTrackPlays);
+  const createdTrackPlays = await database.addTrackPlays(newTrackPlays);
 
   return createdTrackPlays.map((trackPlays) => trackPlays._id);
 };
