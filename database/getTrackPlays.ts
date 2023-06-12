@@ -26,5 +26,4 @@ const getFilterQuery = (parameters?: GetTrackPlaysParameters) => {
 
 export const getTrackPlays = async (
   parameters?: GetTrackPlaysParameters
-): Promise<ITrackPlay[]> => TrackPlay.find(getFilterQuery(parameters));
-
+): Promise<ITrackPlay[]> => await TrackPlay.find(getFilterQuery(parameters));
