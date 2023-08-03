@@ -3,6 +3,15 @@ API which will allow you to see your spotify stats - top listened songs in some 
 
 Spotify allows you to download your account data which include listening history. Based on this data you'll be able to check your stats using this API.
 
+## Endpoints
+You can find endpoints descriptions [here](/ENDPOINTS.md)
+
+## Technologies
+* Node.js
+* Express.js
+* MongoDB
+* TypeScript
+
 ## How to use this API
 To run this API you should first create a MongoDB database instance. Also you should create app in spotify for developers page (https://developer.spotify.com/).
 
@@ -31,16 +40,7 @@ whereas for the extended listening history single item of data is saved in this 
 ```
 Endpoint `POST /trackPlays` which allows you to save track plays in database supports both formats. You can just grab the content of the file with the listening history and put it in request body. Remember to not modify the content of the grabbed data by yourself. You shouldn't even change the order of the data, because API expects sorted data and changing order may cause omitting some items while adding them to database.
 
-## Endpoints
-You can find endpoints descriptions [here](/ENDPOINTS.md)
-
-## Technologies
-* Node.js
-* Express.js
-* MongoDB
-* TypeScript
-
 ## Status
 Project is _in progress_
 
-In the future when this API will be more developed there'll be a web app which will use this API
+In the future there will be a client app created using this API
