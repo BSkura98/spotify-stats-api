@@ -11,6 +11,8 @@ You can find endpoints descriptions [here](/ENDPOINTS.md)
 * Express.js
 * MongoDB
 * TypeScript
+* Jest
+* GitHub Actions
 
 ## How to use this API
 To run this API you should first create a MongoDB database instance. Also you should create app in spotify for developers page (https://developer.spotify.com/).
