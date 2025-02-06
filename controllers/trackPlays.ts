@@ -7,9 +7,11 @@ import { getTrackPlaysService } from "../service/getTrackPlays/service";
 import { deleteTrackPlayService } from "../service/deleteTrackPlay/service";
 import { RequestError } from "../errors/RequestError";
 import { errorResponse } from "../utils/errorResponse";
+import { GetTrackPlaysParameters } from "../service/getTrackPlays/requestParameters";
 
 const getTrackPlays = asyncWrapper(async (req: Request, res: Response) => {
-  const plays = await getTrackPlaysService();
+  const requestParameters: GetTrackPlaysParameters = req.query;
+  const plays = await getTrackPlaysService(requestParameters);
   res.status(200).json(plays);
 });
 
