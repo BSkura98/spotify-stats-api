@@ -21,6 +21,10 @@ Delete track play with given `id` from database.
 ## GET /trackPlays
 Get your track plays from database.
 
+Optional query parameters:
+* `startDate` (date) - since when track plays will be taken into account
+* `endDate` (date) - until when track plays will be taken into account
+
 Returns an array of track plays which contain parameters:
 * `endTime` (date) - track end time
 * `artistName` (string) - artist name
