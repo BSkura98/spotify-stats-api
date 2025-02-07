@@ -58,9 +58,15 @@ const getMostPopularDays = (trackPlays: ITrackPlay[], durationMs: number) =>
 export const getSongStatsService = async (
   request: GetSongStatsBody
 ): Promise<GetSongStatsResponse> => {
-  const { artistName, trackName } = request;
+  let { artistName, trackName } = request;
 
-  const trackPlays = await TrackPlay.find({ artistName, trackName });
+  const trackPlays = await TrackPlay.find({
+    artistName: { $regex: artistName, $options: "i" },
+    trackName: { $regex: trackName, $options: "i" },
+  });
+  artistName = trackPlays[0].artistName;
+  trackName = trackPlays[0].trackName;
+
   if (!trackPlays) {
     throw new NotFoundError();
   }
